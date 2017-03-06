@@ -1,0 +1,40 @@
+.mainTabs.ng-enter {
+  transition:1s linear all;
+  opacity:1;
+  transform: translateX(-100%);
+}
+.mainTabs.ng-enter.ng-enter-active {
+  opacity:1;
+  transform: translateX(0);
+}
+
+.mainTabs.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+  transform: translateX(0);
+}
+.mainTabs.ng-leave.ng-leave-active {
+  opacity:1;
+  transform: translateX(-100%);
+}
+
+.mainTabs2.ng-enter {
+  transition:1s linear all;
+  opacity:1;
+  transform: translateX(100%);
+}
+.mainTabs2.ng-enter.ng-enter-active {
+  opacity:1;
+  transform: translateX(0);
+}
+
+.mainTabs2.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+  transform: translateX(0);
+}
+.mainTabs2.ng-leave.ng-leave-active {
+  opacity:1;
+  transform: translateX(100%);
+}
+

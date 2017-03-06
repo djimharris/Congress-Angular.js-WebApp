@@ -1,0 +1,304 @@
+<style type="text/css">
+  form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+  }
+</style>
+
+<h3>Legislators</h3>
+<hr>
+<div ng-switch on="legisTab">
+  <div class="mainTabs" ng-switch-when="1">
+    <!-- Nav tabs -->
+   <!--  <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#legilatorsState" aria-controls="home" role="tab" data-toggle="tab">By State</a></li>
+      <li role="presentation"><a href="#legislatorsHouse" aria-controls="profile" role="tab" data-toggle="tab">House</a></li>
+      <li role="presentation"><a href="#legislatorsSenate" aria-controls="messages" role="tab" data-toggle="tab">Senate</a></li>
+    </ul> -->
+
+    <!-- Tab panes -->
+    <!-- <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="legilatorsState" name="legislatorsState">...1</div>
+      <div role="tabpanel" class="tab-pane" id="legislatorsHouse" name="legislatorsHouse">..2</div>
+      <div role="tabpanel" class="tab-pane" id="legislatorsSenate">...3</div>
+    </div>
+ -->
+ <!-- <div uib-carousel active="active" interval="none" no-wrap="noWrapSlides" no-pause="true" template-url="views/carousel.html">
+    <div uib-slide index="0">  -->
+     <uib-tabset active="active">
+        <uib-tab index="0" heading="By State">
+          <div class="tableBox">
+            <div class="aboveTable" >
+              <span><strong>Legislators By State</strong></span>
+              <span>
+                <select class="form-control" ng-model="statefiltertext" ng-options="y for y in stateNames" ng-change="stateChange(statefiltertext)">
+                </select>
+              </span>
+            </div>
+            <div class="tableModDiv">
+              <table class="table">
+                <tr>
+                  <th>Party</th>
+                  <th>Name</th>
+                  <th>Chamber</th>
+                  <th>District</th>
+                  <th>State</th>
+                  <th></th>
+                </tr>
+                <tr dir-paginate="x in data | filter:stateFilter | orderBy : ['state_name','last_name'] | itemsPerPage:10" pagination-id="legisState">
+                    <td class="col-sm-2"><img src="{{partyurl(x.party)}}" height="20" width="20"></td>
+                    <td class="col-sm-2">{{x.last_name + ', ' + x.first_name}}</td>
+                    <td class="col-sm-2"><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+                    <td class="col-sm-2">{{getDistrict(x.district)}}</td>
+                    <td class="col-sm-2">{{x.state_name}}</td>
+                    <td class="col-sm-2" align="right">
+                    <button type="button" class="btn btn-primary" ng-click="setTempLegis(x);legisChangeTab()" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              <center>
+                <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="legisState"></dir-pagination-controls>
+              </center>
+            </div>
+          </div>
+            
+        </uib-tab>
+        <uib-tab index="1" heading="House">
+          <div class="tableBox">
+            <div class="aboveTable" >
+              <span><strong>Legislators By House</strong></span>
+              <span>
+                <form>
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" placeholder="Search" ng-model="searchHouse">
+                        </div>
+                    </div> -->
+                    <input class="form-control input-sm" placeholder="Search" ng-model="searchHouse" type="text">
+                </form>
+              </span>
+            </div>
+            <div class="tableModDiv">
+              <table class="table">
+                <tr>
+                  <th>Party</th>
+                  <th>Name</th>
+                  <th>Chamber</th>
+                  <th>District</th>
+                  <th>State</th>
+                  <th></th>
+                </tr>
+                <tr dir-paginate="x in data | filter:searchHouse | filter:chamberHouse | orderBy : 'last_name' | itemsPerPage:10" pagination-id="legisHouse">
+                    <td class="col-sm-2"><img src="{{partyurl(x.party)}}" height="20" width="20"></td>
+                    <td class="col-sm-2">{{x.last_name + ', ' + x.first_name}}</td>
+                    <td class="col-sm-2"><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+                    <td class="col-sm-2">{{getDistrict(x.district)}}</td>
+                    <td class="col-sm-2">{{x.state_name}}</td>
+                    <td class="col-sm-2" align="right">
+                    <button type="button" class="btn btn-primary" ng-click="setTempLegis(x);legisChangeTab()" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              <center>
+                <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="legisHouse"></dir-pagination-controls>
+              </center>
+            </div>
+          </div>
+            
+        </uib-tab>
+
+        <uib-tab index="2" heading="Senate">
+          <div class="tableBox">
+            <div class="aboveTable" >
+              <span><strong>Legislators By Senate</strong></span>
+              <span>
+                <form>
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" placeholder="Search" ng-model="searchHouse">
+                        </div>
+                    </div> -->
+                    <input class="form-control input-sm" placeholder="Search" ng-model="searchSenate" type="text">
+                </form>
+              </span>
+            </div>
+            <div class="tableModDiv">
+              <table class="table">
+                <tr>
+                  <th>Party</th>
+                  <th>Name</th>
+                  <th>Chamber</th>
+                  <!-- <th>District</th> -->
+                  <th>State</th>
+                  <th></th>
+                </tr>
+                <tr dir-paginate="x in data | filter:searchSenate | filter:chamberSenate | orderBy : 'last_name' | itemsPerPage:10" pagination-id="legisSenate">
+                    <td class="col-sm-2"><img src="{{partyurl(x.party)}}" height="20" width="20"></td>
+                    <td class="col-sm-2">{{x.last_name + ', ' + x.first_name}}</td>
+                    <td class="col-sm-2"><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+                    <!-- <td class="col-sm-2">{{x.district}}</td> -->
+                    <td class="col-sm-2">{{x.state_name}}</td>
+                    <td class="col-sm-2" align="right">
+                    <button type="button" class="btn btn-primary" ng-click="setTempLegis(x);legisChangeTab()" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              <center>
+                <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="legisSenate"></dir-pagination-controls>
+              </center>
+            </div>
+          </div>
+
+            
+        </uib-tab>
+        <!-- <uib-tab index="$index + 2" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+          {{tab.content}}
+        </uib-tab> -->
+        
+      </uib-tabset>
+    <!-- </div>
+    <div uib-slide index="1">
+      There's some text now
+    </div>
+  </div> -->
+  </div>
+  <div class="mainTabs2" ng-switch-when="2">
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-default pull-left" ng-click="legisChangeTab()">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <span><h3 style="display: inline-block; margin-top: 10px;">Details</h3></span>
+        <button class="btn btn-default pull-right"  ng-click="favoriteClick()">
+            <i ng-class="temp.favoriteClass" aria-hidden="true"></i>
+        </button>
+    <!-- Hello <br>
+    {{temp.last_name}} -->
+     </div>  
+    </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+      <!-- <table class="table">
+        <tr>
+          <td rowspan="5"> -->
+            <center>
+            <img src="{{legisImage(temp.bioguide_id)}}" alt="Display Image" align="center" style='object-fit: contain'  height="200px" width="150px">
+            </center>
+          <!-- </td>
+        </tr>
+        </table> -->
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+          <table class="table col-sm-6">  
+            <tr>  
+              <td>
+                {{temp.title + ' ' + temp.last_name + ' ' + temp.first_name}}
+              </td>
+            </tr>
+            <tr>
+              <td><a href= "mailto:{{temp.oc_email}}" >{{temp.oc_email}}</a></td>  
+            </tr>
+            <tr>
+              <td>{{"Chamber: "}}{{temp.chamber | toNameCase}}</td>  
+            </tr>
+            <tr>
+              <td>{{"Contact: "}}<a href="tel:{{temp.phone}}"> {{temp.phone}} </a></td>  
+            </tr>
+            <tr>
+              <td><img src="{{partyurl(temp.party)}}" height="20" width="20">{{" " + getParty(temp.party)}}</td>  
+            </tr>
+          </table>
+        </div>
+        <table class="table">
+        <tr>
+          <th class="hidden-xs col-sm-4">Start Term</th>
+          <td class="col-sm-8">{{getBirthDate(temp.term_start)}}</td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">End Term</th>
+          <td>{{getBirthDate(temp.term_end)}}</td>
+        </tr>
+        <tr class="hidden-xs">
+          <th>Term</th>
+          <td> <uib-progressbar animate="false" value="getTerm(temp)" type="success"><b>{{getTerm(temp)}}%</b></uib-progressbar></td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">Office</th>
+          <td>{{temp.office}}</td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">State</th>
+          <td>{{temp.state_name}}</td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">Fax</th>
+          <td><a href="tel:{{temp.fax}}"> {{temp.fax}} </a></td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">Birthday</th>
+          <td>{{getBirthDate(temp.birthday)}}</td>
+        </tr>
+        <tr>
+          <th class="hidden-xs">Social Links</th>
+          <td style="display: flex; align-items: stretch;">
+            <a href="{{'https://twitter.com/' + temp.twitter_id}}" target="_blank"><img ng-if="checkTwitter(temp)" src="http://cs-server.usc.edu:45678/hw/hw8/images/t.png" height="40" width="40"></a>
+            <a href="{{'https://www.facebook.com/' + temp.facebook_id}}" target="_blank" style="margin-left: 5px; margin-right: 5px"><img ng-if="checkFacebook(temp)" src="http://cs-server.usc.edu:45678/hw/hw8/images/f.png" height="40" width="40"></a>
+            <a href="{{temp.website}}" target="_blank"><i ng-if="checkWeb(temp)" class="fa fa-globe fa-3x" aria-hidden="true" style="color: black"></i></a>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+      <h3>Committees</h3>
+      <!-- {{tempComm}} -->
+      <!-- <hr> -->
+      <table class="table col-xs-12">
+        <tr>
+          <th class="col-sm-6 col-md-1">Chamber</th>
+          <th class="col-sm-6 col-md-1">Committee ID</th>
+          <th class="visible-md visible-lg col-md-10">Name</th>
+        </tr>
+        <tr ng-repeat="x in tempComm | orderBy : 'committee_id'">
+          <td>{{x.chamber | toNameCase}}</td>
+          <td>{{x.committee_id}}</td>
+          <td class="visible-md visible-lg">{{x.name}}</td>
+          
+        </tr>
+      </table>
+      <hr>
+      <h3>Bills</h3>
+      <!-- <hr> -->
+      <!-- {{tempBills}} -->
+      <table class="table col-xs-12">
+        <tr>
+          <th class="col-sm-6 col-md-1">Bill ID</th>
+          <th class="visible-md visible-lg col-md-2">Title</th>
+          <th class="visible-md visible-lg col-md-1">Chamber</th>
+          <th class="visible-md visible-lg col-md-1">Bill Type</th>
+          <th class="visible-md visible-lg col-md-1">Congress</th>
+          <th class="col-sm-6 col-md-1">Link</th>
+        </tr>
+        <tr ng-repeat="x in tempBills | orderBy : '-introduced_on'">
+          <td>{{x.bill_id | uppercase}}</td>
+          <td class="visible-md visible-lg">{{x.official_title}}</td>
+          <td class="visible-md visible-lg">{{x.chamber | toNameCase}}</td>
+          <td class="visible-md visible-lg">{{x.bill_type | uppercase}}</td>
+          <td class="visible-md visible-lg">{{x.congress}}</td>
+          <td><a ng-if="x.last_version.urls.pdf" href="{{x.last_version.urls.pdf}}" target="_blank">Link</a></td>
+          
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</div>

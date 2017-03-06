@@ -1,0 +1,126 @@
+<style type="text/css">
+  form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+  }
+</style>
+
+<h3>Committees</h3>
+<hr>
+<div class="mainTabs">
+		<uib-tabset>
+			 <!-- <uib-tab index="0" heading="JSON Data">{{dataComm}}</uib-tab> -->
+			 <uib-tab index="0" heading="House">
+			 	<div class="tableBox">
+		            <div class="aboveTable" >
+		              <span><strong>House</strong></span>
+		              <span>
+		                <form>
+		                    <input class="form-control input-sm" placeholder="Search" ng-model="searchCommHouse" type="text">
+		                </form>
+		              </span>
+		            </div>
+		            <div class="tableModDiv">
+			            <table class="table">
+			            	<tr>
+				            	<th class="col-md-1"></th>
+				            	<th class="col-md-1">Chamber</th>
+				            	<th class="col-md-1">Committee ID</th>
+				            	<th class="col-md-6">Name</th>
+				            	<th class="col-md-1">Parent Committee</th>
+				            	<th class="col-md-1">Contact</th>
+				            	<th class="col-md-1">Office</th>	
+				            </tr>
+				            <tr dir-paginate="x in dataComm | filter:searchCommHouse | filter:chamberHouse | orderBy : 'committee_id' |  itemsPerPage:10" pagination-id="CommHouse">
+				            	<td>
+				            		<button class="btn btn-default pull-right" ng-click="favoriteClick(x)">
+							            <i ng-class="getFavoriteClass(x)" aria-hidden="true"></i>
+							        </button>
+				            	</td>
+				            	<td><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+				            	<td>{{x.committee_id}}</td>
+				            	<td>{{x.name}}</td>
+				            	<td>{{x.parent_committee_id}}</td>
+				            	<td>{{x.phone}}</td>
+				            	<td>{{getOffice(x.office)}}</td>
+				            </tr>
+			            </table>
+			            <center>
+			              <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="CommHouse"></dir-pagination-controls>
+			            </center>
+			        </div>
+		     	</div>
+			 </uib-tab>
+			  <uib-tab index="1" heading="Senate">
+			 	<div class="tableBox">
+		            <div class="aboveTable" >
+		              <span><strong>Senate</strong></span>
+		              <span>
+		                <form>
+		                    <input class="form-control input-sm" placeholder="Search" ng-model="searchCommSenate" type="text">
+		                </form>
+		              </span>
+		            </div>
+		            <div class="tableModDiv">
+			            <table class="table">
+			            	<tr>
+				            	<th class="col-md-1"></th>
+				            	<th class="col-md-1">Chamber</th>
+				            	<th class="col-md-1">Committee ID</th>
+				            	<th class="col-md-9">Name</th>
+				            	<th class="col-md-1">Parent Committee</th>
+				            </tr>
+				            <tr dir-paginate="x in dataComm | filter:searchCommSenate | filter:chamberSenate | orderBy : 'committee_id' | itemsPerPage:10" pagination-id="CommSenate">
+				            	<td>
+				            		<button class="btn btn-default pull-right" ng-click="favoriteClick(x)">
+							            <i ng-class="getFavoriteClass(x)" aria-hidden="true"></i>
+							        </button>
+				            	</td>
+				            	<td><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+				            	<td>{{x.committee_id}}</td>
+				            	<td>{{x.name}}</td>
+				            	<td>{{x.parent_committee_id}}</td>
+				            </tr>
+			            </table>
+			            <center>
+			              <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="CommSenate"></dir-pagination-controls>
+			            </center>
+			        </div>
+		     	</div>
+			 </uib-tab>
+			  <uib-tab index="2" heading="Joint">
+			 	<div class="tableBox">
+		            <div class="aboveTable" >
+		              <span><strong>Joint</strong></span>
+		              <span>
+		                <form>
+		                    <input class="form-control input-sm" placeholder="Search" ng-model="searchCommJoint" type="text">
+		                </form>
+		              </span>
+		            </div>
+		            <div class="tableModDiv">
+			            <table class="table">
+			            	<tr>
+				            	<th class="col-md-1"></th>
+				            	<th class="col-md-2">Chamber</th>
+				            	<th class="col-md-2">Committee ID</th>
+				            	<th class="col-md-7">Name</th>
+				            </tr>
+				            <tr dir-paginate="x in dataComm | filter:searchCommJoint | filter:chamberJoint | orderBy : 'committee_id' | itemsPerPage:10" pagination-id="CommJoint">
+				            	<td>
+				            		<button class="btn btn-default pull-right" ng-click="favoriteClick(x)">
+							            <i ng-class="getFavoriteClass(x)" aria-hidden="true"></i>
+							        </button>
+				            	</td>
+				            	<td><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+				            	<td>{{x.committee_id}}</td>
+				            	<td>{{x.name}}</td>
+				            </tr>
+			            </table>
+			            <center>
+			              <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="CommJoint"></dir-pagination-controls>
+			            </center>
+			        </div>
+		     	</div>
+			 </uib-tab>
+		</uib-tabset>
+</div>

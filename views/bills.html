@@ -1,0 +1,163 @@
+<style type="text/css">
+  form.tab-form-demo .tab-pane {
+    margin: 20px 20px;
+  }
+</style>
+
+<h3>Bills</h3>
+<hr>
+<div ng-switch on="billsTab">
+	<div class="mainTabs" ng-switch-when="1">
+		<uib-tabset>
+			 <!-- <uib-tab index="0" heading="JSON Data">{{dataActive}}</uib-tab> -->
+			 <uib-tab index="0" heading="Active Bills">
+			 	<div class="tableBox">
+		            <div class="aboveTable">
+		              <span><strong>Active Bills</strong></span>
+		              <span>
+		                <form>
+		                    <input class="form-control input-sm" placeholder="Search" ng-model="searchBillsActive" type="text">
+		                </form>
+		              </span>
+		            </div>
+		            <div class="tableModDiv">
+			            <table class="table">
+				            <tr>
+				            	<th class="col-sm-1">Bill ID</th>
+				            	<th class="col-sm-1">Bill Type</th>
+				            	<th class="col-sm-3">Title</th>
+				            	<th class="col-sm-2">Chamber</th>
+				            	<th class="col-sm-1">Introduced On</th>
+				            	<th class="col-sm-2">Sponsor</th>
+				            	<th></th>
+				            </tr>
+				            <tr dir-paginate="x in dataActive | filter:searchBillsActive | orderBy : '-introduced_on' |  itemsPerPage:10" pagination-id="BillsActive">
+				            	<td>{{x.bill_id | uppercase}}</td>
+				            	<td>{{x.bill_type | uppercase}}</td>
+				            	<td>{{x.official_title}}</td>
+				            	<td><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+				            	<td>{{x.introduced_on}}</td>
+				            	<td>{{x.sponsor.title + " " + x.sponsor.last_name + ", " + x.sponsor.first_name}}</td>
+				            	<td align="right"> 
+				            		<button type="button" class="btn btn-primary" ng-click="setTempBills(x);billsChangeTab(x)" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+					                    View Details
+					                </button>
+					            </td>
+				            </tr>
+			            </table>
+			            <center>
+			              <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="BillsActive"></dir-pagination-controls>
+			            </center>
+			        </div>
+		     	</div>
+			 </uib-tab>
+			 <uib-tab index="1" heading="New Bills">
+			 	<div class="tableBox">
+		            <div class="aboveTable" >
+		              <span><strong>New Bills</strong></span>
+		              <span>
+		                <form>
+		                    <input class="form-control input-sm" placeholder="Search" ng-model="searchBillsPassive" type="text">
+		                </form>
+		              </span>
+		            </div>
+		            <div class="tableModDiv">
+			            <table class="table">
+			            	<tr>
+				            	<th class="col-sm-1">Bill ID</th>
+				            	<th class="col-sm-1">Bill Type</th>
+				            	<th class="col-sm-3">Title</th>
+				            	<th class="col-sm-2">Chamber</th>
+				            	<th class="col-sm-1">Introduced On</th>
+				            	<th class="col-sm-2">Sponsor</th>
+				            	<th></th>
+				            </tr>
+				            <tr dir-paginate="x in dataPassive | filter:searchBillsPassive | orderBy : '-introduced_on' | itemsPerPage:10" pagination-id="BillsNew">
+				            	<td>{{x.bill_id | uppercase}}</td>
+				            	<td>{{x.bill_type | uppercase}}</td>
+				            	<td>{{x.official_title}}</td>
+				            	<td><img src="{{chamberurl(x.chamber)}}" height="20" width="20">{{x.chamber | toNameCase}}</td>
+				            	<td>{{x.introduced_on}}</td>
+				            	<td>{{x.sponsor.title + " " + x.sponsor.last_name + ", " + x.sponsor.first_name}}</td>
+				            	<td align="right"> 
+				            		<button type="button" class="btn btn-primary" ng-click="setTempBills(x);billsChangeTab(x);" ng-model="singleModel" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+					                    View Details
+					                </button>
+				            	</td>
+				            </tr>
+			            </table>
+			            <center>
+			              <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="BillsNew"></dir-pagination-controls>
+			            </center>
+			        </div>
+		     	</div>
+			 </uib-tab>
+		</uib-tabset>
+	</div>
+	<div class="mainTabs2" ng-switch-when="2">
+	    <div class="row">
+	      <div class="col-sm-12">
+	        <button class="btn btn-default pull-left" ng-click="billsChangeTab()">
+	            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+	        </button>
+	        <span><h3 style="display: inline-block; margin-top: 10px;">Details</h3></span>
+	        <button class="btn btn-default pull-right" ng-click="favoriteClick()">
+	            <i ng-class="temp.favoriteClass" aria-hidden="true"></i>
+	        </button>
+	    
+	     </div>  
+	    </div>
+	    <div class="row">
+		    <div class="col-sm-12 col-md-6">
+			    <table class="table">	
+			    	<tr>
+			    		<th class="col-sm-2">Bill ID</th>
+			    		<td>{{temp.bill_id | uppercase}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Title</th>
+			    		<td>{{temp.official_title}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Bill Type</th>
+			    		<td>{{temp.bill_type | uppercase}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Sponsor</th>
+			    		<td>{{temp.sponsor.title + " " + temp.sponsor.last_name + ", " + temp.sponsor.first_name}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Chamber</th>
+			    		<td>{{temp.chamber | toNameCase}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Status</th>
+			    		<td>{{getStatus(temp)}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Introduced On</th>
+			    		<td>{{temp.introduced_on}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Congress URL</th>
+			    		<td><a href="{{temp.urls.congress}}" target="_blank">URL</a></td>
+			    	</tr>
+			    	<tr>
+			    		<th>Version Status</th>
+			    		<td>{{temp.last_version.version_name}}</td>
+			    	</tr>
+			    	<tr>
+			    		<th>Bill URL</th>
+			    		<td><a href="{{temp.last_version.urls.pdf}}" target="_blank">Link</a></td>
+			    	</tr>
+			    </table>
+		    </div>
+		    <div class="col-sm-12 col-md-6">
+		    	<!-- <embed ng-src="{{PdfLink}}" type='application/pdf'></embed> -->
+		    	<!-- <object width="400" height="400" data="{{pdfLink}}"></object> -->
+		    	<div ng-bind-html="htmlEmbed"></div>
+		    </div>
+		</div>
+	</div>
+
+</div>
